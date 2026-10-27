@@ -1,0 +1,32 @@
+name: Java CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+      - name: Build and test
+        run: mvn --batch-mode clean verify
+      - name: Static analysis with Checkstyle
+        run: mvn --batch-mode checkstyle:check
+      - name: Static analysis with PMD
+        run: mvn --batch-mode pmd:check
+      - name: Dependency vulnerability scan
+        run: mvn --batch-mode org.owasp:dependency-check-maven:check
+      - name: Upload test and coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios-qualidade
+          path: |
+            target/surefire-reports/
+            target/site/jacoco/
+            target/dependency-check-report.html

@@ -1,0 +1,33 @@
+PROJETO DE INTRODUÇÃO À QUALIDADE DE SOFTWARE — AULA 10
+
+Tema: Integração Contínua e Entrega Contínua (CI/CD) com automação de qualidade.
+
+ESTRUTURA
+- pom.xml: projeto Maven, JUnit 5, cobertura JaCoCo, Checkstyle, PMD e OWASP Dependency-Check.
+- src/main/java: código Java de exemplo.
+- src/test/java: testes unitários.
+- src/test/resources/features: exemplo de cenários BDD/Gherkin das aulas anteriores.
+- .github/workflows/ci.yml: pipeline GitHub Actions para push e pull request.
+- .github/workflows/quality-gate.yml: validação de qualidade em pull requests.
+- Jenkinsfile: pipeline equivalente para Jenkins, com aprovação manual antes da etapa de homologação.
+
+COMO EXECUTAR
+1. Instale JDK 17 e Maven 3.9 ou compatível.
+2. Abra esta pasta no VS Code.
+3. No terminal integrado, execute: mvn clean verify
+4. Execute: mvn checkstyle:check
+5. Execute: mvn pmd:check
+6. Execute: mvn org.owasp:dependency-check-maven:check
+
+RELATÓRIOS
+- Testes: target/surefire-reports/
+- Cobertura JaCoCo: target/site/jacoco/index.html
+- Dependency-Check: target/dependency-check-report.html
+
+OBSERVAÇÕES IMPORTANTES
+- O JaCoCo está configurado para exigir cobertura mínima de 80% das instruções; o desafio integrado da Aula 10 menciona cobertura superior a 85% para permitir deploy. Ajuste o limite para 0.85 se o professor exigir o critério do desafio integrado como Quality Gate obrigatório.
+- O pipeline GitHub Actions executa build, testes, Checkstyle, PMD e OWASP Dependency-Check. Para o deploy real em Jenkins são necessários agente, JDK/Maven configurados e ambiente de homologação. O stage incluído exige aprovação manual e não executa deploy em infraestrutura não configurada.
+- Para aplicar bloqueio real de PR no GitHub, configure branch protection/rulesets para exigir que os checks do workflow passem.
+- Para usar SonarQube, configure SONAR_TOKEN e SONAR_HOST_URL nos Secrets do GitHub e adicione o scanner conforme a infraestrutura disponível.
+- A análise OWASP pode demorar na primeira execução porque baixa a base de vulnerabilidades e pode precisar de NVD API key ou ajustes de rede.
+- Não há credenciais, tokens ou infraestrutura externa incluídos no projeto.
