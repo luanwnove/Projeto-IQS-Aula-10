@@ -19,3 +19,5 @@ Execute `mvn clean verify`, `mvn checkstyle:check`, `mvn pmd:check` e `mvn org.o
 
 ## Limitações
 O deploy depende de ambiente Jenkins e homologação configurados. O SonarQube depende de URL/token válidos. A verificação OWASP precisa acessar a base de vulnerabilidades. Esses serviços não são simulados como se tivessem sido executados neste pacote.
+
+Teste de validação do Pull Request e do pipeline de qualidade.
